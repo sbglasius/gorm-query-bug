@@ -31,21 +31,12 @@ class TestIntegrationSpec extends Specification {
         bundle.save(flush: true)
 
         when:
-        BundleVersion result = BundleVersion.find { name == '1.0' && bundle.name == 'bundle' }
-
-        then:
-        with(result) {
-            name == '1.0'
-            bundle.name == 'bundle'
-        }
-
-        when:
         bundle.addToVersions(name: '1.1')
         bundle.save(flush: true)
 
         then:
-        def newResult = BundleVersion.find({ name == '1.1' && bundle.name == 'bundle' })
-        newResult.name == '1.1'
+        def result = BundleVersion.find({ name == '1.1' && bundle.name == 'bundle' })
+        result.name == '1.1'
     }
 
     def "test where query is in then block without def"() {
@@ -53,15 +44,6 @@ class TestIntegrationSpec extends Specification {
         Bundle bundle = new Bundle(name: 'bundle')
         bundle.addToVersions(name: '1.0')
         bundle.save(flush: true)
-
-        when:
-        BundleVersion result = BundleVersion.find { name == '1.0' && bundle.name == 'bundle' }
-
-        then:
-        with(result) {
-            name == '1.0'
-            bundle.name == 'bundle'
-        }
 
         when:
         bundle.addToVersions(name: '1.1')
